@@ -17,8 +17,27 @@ public class Processar extends DefaultHandler {
 	private boolean professor, nom, cognom, sexe = false;
 
 	public void endDocument() throws SAXException {
+
+		int countH = 0;
+		int countD = 0;
+
 		for (int i = 0; i < dades.size(); i++) {
-			System.out.println(dades.get(i));
+
+			if (dades.get(i).contains("Home")) {
+				countH++;
+			}
+			if (dades.get(i).contains("Dona")) {
+				countD++;
+			}
+		}
+
+		if (countH > 3 || countD > 3) {
+			System.out.println("[ERROR] No es equilibrado");
+		} else {
+			
+			MaestroController MC = new MaestroController();
+			MC.guardarDades(dades);
+			
 		}
 	}
 

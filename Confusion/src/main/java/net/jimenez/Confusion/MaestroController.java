@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -26,6 +27,8 @@ public class MaestroController {
 	private Label secretari;
 	@FXML
 	private Label director;
+	
+	private List<String> dades;
 
 	// Event Listener on Button.onAction
 	@FXML
@@ -42,5 +45,13 @@ public class MaestroController {
 
 		parser.parse(fitxer, new Processar());
 		
+	}
+	
+	public void guardarDades(List<String> data) {
+		dades = data;
+		
+		for (int i = 0; i < dades.size(); i++) {
+			System.out.println(dades.get(i));
+		}
 	}
 }
