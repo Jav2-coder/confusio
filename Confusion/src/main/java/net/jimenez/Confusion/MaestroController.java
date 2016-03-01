@@ -2,7 +2,10 @@ package net.jimenez.Confusion;
 
 import javafx.fxml.FXML;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javafx.event.ActionEvent;
 
@@ -26,14 +29,48 @@ public class MaestroController {
 		
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().addAll(
-				new ExtensionFilter("XML Files", "*.xml"));
+				new ExtensionFilter("TXT Files", "*.txt"));
 
 		File selectedFile = fileChooser.showOpenDialog(null);
 
-		if (selectedFile != null) {
+		BufferedReader u = null;
+		
+		String r = null;
+		
+		try {
+		
+		u = new BufferedReader(new FileReader(selectedFile));
+		
+		while ((r = u.readLine()) != null) {
+			
+			String [] dades = r.split(", ");
+			
+			System.out.println(dades[0]);
+			
+		}
+		
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		} finally {
+			
+			try {
+
+				if (u != null) u.close();
+
+			} catch (IOException ex) {
+
+				ex.printStackTrace();
+
+			}
+			
+		}
+		
+		/*if (selectedFile != null) {
 			actionStatus.setText("File selected: " + selectedFile.getName());
 		} else {
 			actionStatus.setText("File selection cancelled.");
-		}
+		}*/
 	}
 }
