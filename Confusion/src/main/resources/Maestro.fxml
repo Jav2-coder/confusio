@@ -57,14 +57,14 @@
                         <Insets left="41.0" />
                      </GridPane.margin>
                   </Button>
-                  <Label fx:id="capEstudi" prefHeight="110.0" prefWidth="172.0" style="-fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                  <Label fx:id="capEstudi" prefHeight="110.0" prefWidth="172.0" style="-fx-border-color: black; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets top="10.0" />
                      </GridPane.margin>
                   </Label>
-                  <Label fx:id="coordinacio" prefHeight="25.0" prefWidth="172.0" style="-fx-border-color: #000000;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Label fx:id="secretari" prefHeight="22.0" prefWidth="172.0" style="-fx-border-color: black;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label fx:id="director" prefHeight="24.0" prefWidth="172.0" style="-fx-border-color: #000000;" GridPane.columnIndex="1" />
+                  <Label fx:id="coordinacio" prefHeight="25.0" prefWidth="172.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff;" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Label fx:id="secretari" prefHeight="22.0" prefWidth="172.0" style="-fx-border-color: black; -fx-background-color: white;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label fx:id="director" prefHeight="24.0" prefWidth="172.0" style="-fx-border-color: #000000; -fx-background-color: #ffffff;" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <Button mnemonicParsing="false" onAction="#escollirFitxer" prefHeight="26.0" prefWidth="126.0" text="Llegir fitxer">
