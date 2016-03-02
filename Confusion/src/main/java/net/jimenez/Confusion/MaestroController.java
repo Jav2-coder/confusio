@@ -27,7 +27,7 @@ public class MaestroController {
 	private Label secretari;
 	@FXML
 	private Label director;
-	
+
 	private List<String> dades;
 
 	// Event Listener on Button.onAction
@@ -38,18 +38,22 @@ public class MaestroController {
 		fileChooser.getExtensionFilters().addAll(new ExtensionFilter("XML Files", "*.xml"));
 
 		File selectedFile = fileChooser.showOpenDialog(null);
-		InputStream fitxer = new FileInputStream(selectedFile);
-		
-		SAXParserFactory spf = SAXParserFactory.newInstance();
-		SAXParser parser = spf.newSAXParser();
 
-		parser.parse(fitxer, new Processar());
-		
+		if (selectedFile != null) {
+
+			InputStream fitxer = new FileInputStream(selectedFile);
+
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			SAXParser parser = spf.newSAXParser();
+
+			parser.parse(fitxer, new Processar());
+
+		}
 	}
-	
+
 	public void guardarDades(List<String> data) {
 		dades = data;
-		
+
 		for (int i = 0; i < dades.size(); i++) {
 			System.out.println(dades.get(i));
 		}
