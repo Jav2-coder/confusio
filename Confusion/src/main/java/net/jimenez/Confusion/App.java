@@ -1,5 +1,8 @@
 package net.jimenez.Confusion;
 	
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -14,6 +17,7 @@ public class App extends Application {
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("/Maestro.fxml"));
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
+			primaryStage.setTitle("Exercici JavaFx");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
