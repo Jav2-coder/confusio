@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.Random;
+import java.util.Random;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -32,23 +32,21 @@ public class MaestroController {
 	@FXML
 	private Label director;
 
-	private List<List<Professor>> professorat = null;
+	private List<Seleccionador> professorat = null;
 
-	// private List<Professor> novaDireccio = new ArrayList<Professor>();
+	private List<String> novaDireccio = new ArrayList<String>();
 
-	/*
-	 * final static int DIRECTOR = 0; final static int SECRETARI = 1; final
-	 * static int CAPESTUDIS_A = 2; final static int CAPESTUDIS_B = 3; final
-	 * static int COORDINADOR = 4;
-	 */
+	final static int DIRECTOR = 0;
+	final static int SECRETARI = 1;
+	final static int CAPESTUDIS_A = 2;
+	final static int CAPESTUDIS_B = 3;
+	final static int COORDINADOR = 4;
 
 	final static int NUM_CARRECS = 4;
 
-	/*
-	 * private int posicio = 0;
-	 * 
-	 * private Random rnd = new Random();
-	 */
+	private int posicio = 0;
+
+	private Random rnd = new Random();
 
 	// Event Listener on Button.onAction
 	@FXML
@@ -75,66 +73,61 @@ public class MaestroController {
 
 	public void recalcularProfessors(ActionEvent event) {
 
+		novaDireccio.clear();
+
 		if (professorat != null) {
 
 			int candidat = 0;
 
-			while (candidat < NUM_CARRECS) {
+			while (candidat < NUM_CARRECS || professorat.get(candidat).getListProfessors() != null) {
 
-				System.out.println("Llista nº: " + (candidat + 1));
-				System.out.println();
+				if (candidat == 2 || candidat == 3) {
 
-				for (int i = 0; i < professorat.get(candidat).size(); i++) {
-					System.out.println("Nom: " + professorat.get(candidat).get(i).getNom() + " Sexe: "
-							+ professorat.get(candidat).get(i).getSexe());
+					seleccionarProfessor(professorat.get(2).getListProfessors());
+					professorat.get(2).getListProfessors().remove(posicio);
+
+				} else if (candidat == 4) {
+
+					seleccionarProfessor(professorat.get(candidat - 1).getListProfessors());
+					professorat.get(candidat - 1).getListProfessors().remove(posicio);
+
+				} else {
+
+					seleccionarProfessor(professorat.get(candidat).getListProfessors());
+					professorat.get(candidat).getListProfessors().remove(posicio);
+
 				}
 
-				System.out.println();
-
 				candidat++;
+
+			}
+
+			if (professorat.get(candidat).getListProfessors() == null) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Aletra: Llista Acabada");
+				alert.setHeaderText("Error al intentar recalcular la informació");
+				alert.setContentText("Has de seleccionar un nou arxiu XML compatible per treballar.");
+				alert.showAndWait();
+			} else {
+
+				director.setText(novaDireccio.get(DIRECTOR));
+				secretari.setText(novaDireccio.get(SECRETARI));
+				capEstudi.setText(novaDireccio.get(CAPESTUDIS_A) + "\n" + novaDireccio.get(CAPESTUDIS_B));
+				coordinacio.setText(novaDireccio.get(COORDINADOR));
 			}
 		} else {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Aletra: Falta Documentació");
 			alert.setHeaderText("Error al intentar recalcular la informació");
-			alert.setContentText("Has de seleccionar un arxiu XML compatible pr treballar.");
-
+			alert.setContentText("Has de seleccionar un arxiu XML compatible per treballar.");
 			alert.showAndWait();
 		}
 	}
-	/*
-	 * int candidat = 0;
-	 * 
-	 * while (candidat < 5) {
-	 * 
-	 * if (candidat == 2 || candidat == 3) {
-	 * 
-	 * seleccioCandidats(professorat.get(2));
-	 * professorat.get(2).remove(posicio);
-	 * 
-	 * } else if (candidat == 4) {
-	 * 
-	 * seleccioCandidats(professorat.get(candidat - 1));
-	 * professorat.get(candidat - 1).remove(posicio);
-	 * 
-	 * } else {
-	 * 
-	 * seleccioCandidats(professorat.get(candidat));
-	 * professorat.get(candidat).remove(posicio); } candidat++; }
-	 * 
-	 * director.setText(novaDireccio.get(DIRECTOR));
-	 * secretari.setText(novaDireccio.get(SECRETARI));
-	 * capEstudi.setText(novaDireccio.get(CAPESTUDIS_A) + "\n" +
-	 * novaDireccio.get(CAPESTUDIS_B));
-	 * coordinacio.setText(novaDireccio.get(COORDINADOR));
-	 * 
-	 * }
-	 */
 
 	public void guardarDades(List<String> data) {
 
-		professorat = new ArrayList<List<Professor>>();
-		
+		professorat = new ArrayList<Seleccionador>();
+
 		List<Professor> newList = new ArrayList<Professor>();
 
 		for (int i = 0; i < data.size(); i++) {
@@ -145,32 +138,41 @@ public class MaestroController {
 
 		}
 
-		for (int i = 0; i < 4; i++) {
-
-			professorat.add(newList);
-
-		}
+		professorat.add(new Seleccionador(new ArrayList<Professor>(newList)));
+		professorat.add(new Seleccionador(new ArrayList<Professor>(newList)));
+		professorat.add(new Seleccionador(new ArrayList<Professor>(newList)));
+		professorat.add(new Seleccionador(new ArrayList<Professor>(newList)));
 	}
 
-	/*
-	 * public void seleccioCandidats(List<String> professors) {
-	 * 
-	 * boolean correcte = false;
-	 * 
-	 * while (!correcte) {
-	 * 
-	 * int contH = 0; int contD = 0;
-	 * 
-	 * posicio = rnd.nextInt(professors.size());
-	 * 
-	 * String professor = professors.get(posicio);
-	 * 
-	 * if (!novaDireccio.contains(professor)) {
-	 * 
-	 * for (int i = 0; i < novaDireccio.size(); i++) {
-	 * 
-	 * if (novaDireccio.get(i).contains("Home")) { contH++; } else { contD++; }
-	 * } if (contH < 3 && contD < 3) { novaDireccio.add(professor); correcte =
-	 * true; } } } }
-	 */
+	private void seleccionarProfessor(List<Professor> professors) {
+
+		boolean correcte = false;
+
+		while (!correcte) {
+
+			int[] sexes = { 0, 0 };
+
+			posicio = rnd.nextInt(professors.size());
+
+			String prof = professors.get(posicio).getNom() + ", " + professors.get(posicio).getSexe();
+
+			if (!novaDireccio.contains(prof)) {
+
+				for (int i = 0; i < novaDireccio.size(); i++) {
+
+					if (novaDireccio.get(i).contains("Home")) {
+						sexes[0]++;
+					} else {
+						sexes[1]++;
+					}
+				}
+				if (sexes[1] < 3 && sexes[1] < 3) {
+
+					novaDireccio.add(professors.get(posicio).getNom());
+					correcte = true;
+
+				}
+			}
+		}
+	}
 }
