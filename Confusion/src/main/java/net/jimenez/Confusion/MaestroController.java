@@ -25,6 +25,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class MaestroController {
+
 	@FXML
 	private Label capEstudi;
 	@FXML
@@ -34,10 +35,21 @@ public class MaestroController {
 	@FXML
 	private Label director;
 
+	/**
+	 * Objeto List que contiene los objetos Seleccionador con todos los objetos
+	 * Professor para rellenar los Label.
+	 */
 	private List<Seleccionador> professorat = null;
 
+	/**
+	 * Objeto List que contiene momentaneamente los valores a añadir en los
+	 * Label del scene.
+	 */
 	private List<String> novaDireccio = new ArrayList<String>();
 
+	/**
+	 * Variables int que ayudaran a rellenar los label del programa.
+	 */
 	final static int DIRECTOR = 0;
 	final static int SECRETARI = 1;
 	final static int CAPESTUDIS_A = 2;
@@ -46,13 +58,31 @@ public class MaestroController {
 
 	final static int NUM_CARRECS = 4;
 
+	/**
+	 * Variable String que contiene el nombre del archivo que se creara en la
+	 * raiz del programa.
+	 */
 	final static String NOM_FITXER = "nova_direccio.txt";
 
+	/**
+	 * Variable int que determina la posicion dentro de un List.
+	 */
 	private int posicio = 0;
 
+	/**
+	 * Objeto Random para generar valores int aleatorios.
+	 */
 	private Random rnd = new Random();
 
-	// Event Listener on Button.onAction
+	/**
+	 * Metodo que usaremos para elegir un fichero XML que usaremos en el
+	 * programa.
+	 * 
+	 * @param event
+	 * @throws ParserConfigurationException
+	 * @throws SAXException
+	 * @throws IOException
+	 */
 	@FXML
 	public void escollirFitxer(ActionEvent event) throws ParserConfigurationException, SAXException, IOException {
 
@@ -75,24 +105,45 @@ public class MaestroController {
 		}
 	}
 
+	/**
+	 * Metodo que guarda los datos en un txt en el caso de que hayan, sino
+	 * mostrara una advertencia.
+	 * 
+	 * @param event
+	 * @throws IOException
+	 */
 	@FXML
 	public void desarDades(ActionEvent event) throws IOException {
 
-		if (capEstudi.getText() == "" || coordinacio.getText() == "" || secretari.getText() == "" || director.getText() == "") {
+		if (capEstudi.getText() == "" || coordinacio.getText() == "" || secretari.getText() == ""
+				|| director.getText() == "") {
+
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Aletra: Falta d'informació");
+			alert.setHeaderText("Error al intentar desar la informació");
+			alert.setContentText("S'han d'emplenar els camps amb l'arxiu XML.");
+			alert.showAndWait();
 
 		} else {
 
 			File archivo = new File(NOM_FITXER);
 			BufferedWriter br = new BufferedWriter(new FileWriter(archivo));
 
+			br.write("Director/a: " + director.getText() + "\n");
+			br.write("Secretari/a: " + secretari.getText() + "\n");
+			br.write("Cap d'Estudis: \n" + capEstudi.getText() + "\n");
+			br.write("Coordinació: " + coordinacio.getText());
 
-				br.write("Director/a: " + director.getText() + "\n");
-				
-				
-				br.close();
+			br.close();
 		}
 	}
 
+	/**
+	 * Metodo que recalcula y da a cada objeto Professor un nuevo cargo sin
+	 * repetir hasta que no existan mas combinaciones.
+	 * 
+	 * @param event
+	 */
 	@FXML
 	public void recalcularProfessors(ActionEvent event) {
 
@@ -147,6 +198,12 @@ public class MaestroController {
 		}
 	}
 
+	/**
+	 * Metodo que almacena los datos del XML en un List de objetos
+	 * Seleccionador, donde estaran los datos.
+	 * 
+	 * @param data
+	 */
 	public void guardarDades(List<String> data) {
 
 		professorat = new ArrayList<Seleccionador>();
@@ -167,6 +224,12 @@ public class MaestroController {
 		professorat.add(new Seleccionador(new ArrayList<Professor>(newList)));
 	}
 
+	/**
+	 * Metodo que selecciona los objetos Professor, teniendo en cuenta que no se
+	 * repita y que no haya mas hombres que mujeres y viceversa.
+	 * 
+	 * @param professors
+	 */
 	private void seleccionarProfessor(List<Professor> professors) {
 
 		boolean correcte = false;

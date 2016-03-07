@@ -6,7 +6,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
 
-
+/**
+ * 
+ * @author Surrui
+ *
+ */
 public class App extends Application {
 	@Override
 	public void start(Stage primaryStage) {
