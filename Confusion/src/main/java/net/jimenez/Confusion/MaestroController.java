@@ -2,8 +2,10 @@ package net.jimenez.Confusion;
 
 import javafx.fxml.FXML;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,6 +46,8 @@ public class MaestroController {
 
 	final static int NUM_CARRECS = 4;
 
+	final static String NOM_FITXER = "nova_direccio.txt";
+
 	private int posicio = 0;
 
 	private Random rnd = new Random();
@@ -71,6 +75,25 @@ public class MaestroController {
 		}
 	}
 
+	@FXML
+	public void desarDades(ActionEvent event) throws IOException {
+
+		if (capEstudi.getText() == "" || coordinacio.getText() == "" || secretari.getText() == "" || director.getText() == "") {
+
+		} else {
+
+			File archivo = new File(NOM_FITXER);
+			BufferedWriter br = new BufferedWriter(new FileWriter(archivo));
+
+
+				br.write("Director/a: " + director.getText() + "\n");
+				
+				
+				br.close();
+		}
+	}
+
+	@FXML
 	public void recalcularProfessors(ActionEvent event) {
 
 		novaDireccio.clear();
@@ -106,7 +129,7 @@ public class MaestroController {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Aletra: Llista Acabada");
 				alert.setHeaderText("Error al intentar recalcular la informació");
-				alert.setContentText("Has de seleccionar un nou arxiu XML compatible per treballar.");
+				alert.setContentText("Has de seleccionar un nou arxiu XML compatible.");
 				alert.showAndWait();
 			} else {
 
@@ -119,7 +142,7 @@ public class MaestroController {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Aletra: Falta Documentació");
 			alert.setHeaderText("Error al intentar recalcular la informació");
-			alert.setContentText("Has de seleccionar un arxiu XML compatible per treballar.");
+			alert.setContentText("Has de seleccionar un arxiu XML compatible.");
 			alert.showAndWait();
 		}
 	}
